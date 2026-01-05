@@ -227,12 +227,25 @@ function love.update(dt)
 
     --
     -- paddles can move no matter what state we're in
-    --
-    -- player 1
+    ---------------------------------------------------------------- MAKE COMPUTER PLAYER 1
+    -- player 1 / computer (below is orig code)
+
+    --[[
     if love.keyboard.isDown('w') then
         player1.dy = -PADDLE_SPEED
     elseif love.keyboard.isDown('s') then
         player1.dy = PADDLE_SPEED
+    else
+        player1.dy = 0
+    end
+    ]]
+
+
+    -- i want the computer to move *toward* the ball.
+    if ball.y > player1.y then
+        player1.dy = PADDLE_SPEED
+    elseif ball.y < player1.y then
+        player1.dy = -PADDLE_SPEED
     else
         player1.dy = 0
     end
