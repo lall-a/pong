@@ -223,32 +223,19 @@ function love.update(dt)
                 ball:reset()
             end
         end
+    
+
+        -- player 1 / computer
+        if ball.y > player1.y then
+            player1.dy = PADDLE_SPEED
+        elseif ball.y < player1.y then
+            player1.dy = -PADDLE_SPEED
+        else
+            player1.dy = 0
+        end
     end
 
-    --
-    -- paddles can move no matter what state we're in
-    ---------------------------------------------------------------- MAKE COMPUTER PLAYER 1
-    -- player 1 / computer (below is orig code)
-
-    --[[
-    if love.keyboard.isDown('w') then
-        player1.dy = -PADDLE_SPEED
-    elseif love.keyboard.isDown('s') then
-        player1.dy = PADDLE_SPEED
-    else
-        player1.dy = 0
-    end
-    ]]
-
-
-    -- i want the computer to move *toward* the ball.
-    if ball.y > player1.y then
-        player1.dy = PADDLE_SPEED
-    elseif ball.y < player1.y then
-        player1.dy = -PADDLE_SPEED
-    else
-        player1.dy = 0
-    end
+    -- ONLY *player paddle can move no matter what state we're in
 
     -- player 2
     if love.keyboard.isDown('up') then
@@ -327,16 +314,26 @@ function love.draw()
     elseif gameState == 'serve' then
         -- UI messages
         love.graphics.setFont(smallFont)
-        love.graphics.printf('Player ' .. tostring(servingPlayer) .. "'s serve!", 
+        if servingPlayer == 1 then
+            love.graphics.printf("Computer's serve!", 
             0, 10, VIRTUAL_WIDTH, 'center')
-        love.graphics.printf('Press Enter to serve!', 0, 20, VIRTUAL_WIDTH, 'center')
+            love.graphics.printf('Press Enter to start!', 0, 20, VIRTUAL_WIDTH, 'center')
+        else 
+            love.graphics.printf("Your serve!", 
+            0, 10, VIRTUAL_WIDTH, 'center')
+            love.graphics.printf('Press Enter to serve!', 0, 20, VIRTUAL_WIDTH, 'center')
+        end
     elseif gameState == 'play' then
         -- no UI messages to display in play
     elseif gameState == 'done' then
         -- UI messages
         love.graphics.setFont(largeFont)
-        love.graphics.printf('Player ' .. tostring(winningPlayer) .. ' wins!',
-            0, 10, VIRTUAL_WIDTH, 'center')
+        if winningPlayer == 1 then 
+            love.graphics.printf('You lost. :\'(', 0, 10, VIRTUAL_WIDTH, 'center')
+        else
+            love.graphics.printf('YOU WIN! :D', 0, 10, VIRTUAL_WIDTH, 'center')
+        end
+        --love.graphics.printf('Player ' .. tostring(winningPlayer) .. ' wins!', 0, 10, VIRTUAL_WIDTH, 'center')
         love.graphics.setFont(smallFont)
         love.graphics.printf('Press Enter to restart!', 0, 30, VIRTUAL_WIDTH, 'center')
     end
