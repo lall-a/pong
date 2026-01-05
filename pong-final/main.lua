@@ -225,7 +225,7 @@ function love.update(dt)
         end
     
 
-        -- player 1 / computer
+        -- player 1 = computer
         if ball.y > player1.y then
             player1.dy = PADDLE_SPEED
         elseif ball.y < player1.y then
@@ -235,12 +235,10 @@ function love.update(dt)
         end
     end
 
-    -- ONLY *player paddle can move no matter what state we're in
-
-    -- player 2
-    if love.keyboard.isDown('up') then
+    -- ONLY player paddle can move no matter what state we're in
+    if love.keyboard.isDown('up') or love.keyboard.isDown('w') then
         player2.dy = -PADDLE_SPEED
-    elseif love.keyboard.isDown('down') then
+    elseif love.keyboard.isDown('down') or love.keyboard.isDown('s') then
         player2.dy = PADDLE_SPEED
     else
         player2.dy = 0
@@ -333,7 +331,6 @@ function love.draw()
         else
             love.graphics.printf('YOU WIN! :D', 0, 10, VIRTUAL_WIDTH, 'center')
         end
-        --love.graphics.printf('Player ' .. tostring(winningPlayer) .. ' wins!', 0, 10, VIRTUAL_WIDTH, 'center')
         love.graphics.setFont(smallFont)
         love.graphics.printf('Press Enter to restart!', 0, 30, VIRTUAL_WIDTH, 'center')
     end
@@ -346,7 +343,7 @@ function love.draw()
     ball:render()
 
     -- display FPS for debugging; simply comment out to remove
-    displayFPS()
+    -- displayFPS()
 
     -- end our drawing to push
     push:finish()
